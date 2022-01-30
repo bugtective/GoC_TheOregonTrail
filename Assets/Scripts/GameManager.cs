@@ -3,20 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum GameStates
-{
-    None,
-    Loading,
-    PrintingMessage,
-    WaitingInput
-}
-
-public enum Desicions
-{
-    Empty = 0,
-    Continue = 1,
-}
-
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text messageText;
