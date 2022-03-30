@@ -4,42 +4,46 @@ using TMPro;
 
 public class ResourcesManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text[] resourceText;
+    [SerializeField] private TMP_Text[] _resourceText;
 
-    private Dictionary<ResourceType, int> resourcesDict = new Dictionary<ResourceType, int>();
+    private Dictionary<ResourceType, int> _currentState = new Dictionary<ResourceType, int>();
     
     private void Awake()
     {
-        resourcesDict.Add(ResourceType.Food, 0);
-        resourcesDict.Add(ResourceType.CryptoUnits, 700);
-        resourcesDict.Add(ResourceType.EnergyCatridges, 0);
-        resourcesDict.Add(ResourceType.SpareParts, 0);
-        resourcesDict.Add(ResourceType.MedicalSupplies, 0);
-        resourcesDict.Add(ResourceType.Sanity, 0);
+        _currentState.Add(ResourceType.Food, 0);
+        _currentState.Add(ResourceType.Money, 700);
+        _currentState.Add(ResourceType.Ammo, 0);
+        _currentState.Add(ResourceType.SpareParts, 0);
+        _currentState.Add(ResourceType.MedicalSupplies, 0);
 
         for (int i = 0; i < (int)ResourceType.Total; i++)
         {
             var resourceType = (ResourceType)i;
-            resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {resourcesDict[resourceType]}";
+            _resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {_currentState[resourceType]}";
         }
     }
 
     public void AddResource(ResourceType resourceType, int amount)
     {
-        resourcesDict[resourceType] += amount;
+        _currentState[resourceType] += amount;
 
-        resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {resourcesDict[resourceType]}";
+        _resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {_currentState[resourceType]}";
     }
 
     public void RemoveResource(ResourceType resourceType, int amount)
     {
-        resourcesDict[resourceType] -= amount;
+        _currentState[resourceType] -= amount;
 
-        resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {resourcesDict[resourceType]}";
+        _resourceText[(int)resourceType].text = $"{resourceType.ToString()}: {_currentState[resourceType]}";
     }
 
     public int GetResourceAmount(ResourceType resourceType)
     {
-        return resourcesDict[resourceType];
+        return _currentState[resourceType];
+    }
+
+    public bool HasEnoughMoney(int amount)
+    {
+        return _currentState[ResourceType.Money] >= amount;
     }
 }
